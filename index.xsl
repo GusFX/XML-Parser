@@ -7,6 +7,15 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
   <html>
+    <header>
+      <a href="index.html">Filmes</a>
+      <a href="anos.html">Anos</a>
+      <a href="diretores.html">Diretores</a>
+      <a href="generos.html">Generos</a>
+      <a href="elenco.html">Elenco</a>
+      <a href="duracao.html">Duração</a>
+    </header>
+
     <body>
         
         <h2>Filmes e tal</h2>
@@ -14,7 +23,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
         <xsl:for-each select="topicMap/topic">
             <xsl:if test="instanceOf/topicRef[@href = '#Filme']">        
-
+                
                 <a>
 
                   <xsl:variable name="link"> <xsl:value-of select="./@id"/>.html</xsl:variable> 
