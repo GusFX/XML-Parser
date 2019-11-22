@@ -23,6 +23,7 @@ xsl_duracao = Nokogiri::XSLT(File.read("xsl/duracao.xsl"))
 
 
 xsl_movie_template = Nokogiri::XML(File.read("xsl/movie_template.xsl"))
+xsl_gender_template = Nokogiri::XML(File.read("xsl/gender_template.xsl"))
 
 
 
@@ -36,20 +37,25 @@ html_duracao = xsl_duracao.transform(doc)
 
 
 id_movie_array = html_index.search("//body/a/@href")
+id_gender_array = html_generos.search("//body/a/@href")
+
+
+xsl_target = xsl_movie_template
+xsl_file = "xsl/movie_template.xsl"
 
 
 
 for id in id_movie_array do
 
-    target_tag = xsl_movie_template.at_xpath("//xsl:variable")
+    target_tag = xsl_target.at_xpath("//xsl:variable")
     target_tag.content = id.text[0..-6]
     
-    File.write("xsl/movie_template.xsl", xsl_movie_template)
-    xsl_movie_template = Nokogiri::XSLT(File.read("xsl/movie_template.xsl"))
+    File.write(xsl_file, xsl_target)
+    xsl_target = Nokogiri::XSLT(File.read(xsl_file))
     
-    html_movie = xsl_movie_template.transform(doc)
+    html_movie = xsl_target.transform(doc)
     
-    xsl_movie_template = Nokogiri::XML(File.read("xsl/movie_template.xsl"))
+    xsl_target = Nokogiri::XML(File.read(xsl_file))
 
     File.write("html/"+id.text, html_movie)
 
